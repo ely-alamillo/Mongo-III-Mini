@@ -1,3 +1,4 @@
+/* eslint-disable */
 const bodyParser = require('body-parser');
 const express = require('express');
 const mongoose = require('mongoose');
@@ -10,12 +11,14 @@ server.use(bodyParser.json());
 
 mongoose.Promise = global.Promise;
 const connect = mongoose.connect(
-    'mongodb://localhost/Postdb', 
+    'mongodb://localhost/Postdb',
     { useMongoClient: true }
 );
 
 connect.then(() => {
     const port = 3000;
+    const routes = require('./api/routes/routes');
+    routes(server);
     server.listen(3000);
     console.log(`Server listening on port ${port}`);
 }, (err) => {
@@ -23,4 +26,3 @@ connect.then(() => {
     console.log("ERROR: Failed to connect to MongoDB.");
     console.log('\n**********************');
 });
-
